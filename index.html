@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Newsroom Studio</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand">
+      <b>AI NEWSROOM</b>
+      <span>STUDIO</span>
+    </div>
+    <div class="headerRight">
+      <span id="projectName">UNTITLED BULLETIN</span>
+      <span class="status" id="status">READY</span>
+    </div>
+  </header>
+
+  <div class="app">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar left">
+
+      <section>
+        <h3>PROJECT</h3>
+
+        <button class="upload">
+          Import News Video
+          <input id="videoFile" type="file" accept="video/*">
+        </button>
+
+        <button class="upload">
+          Import Logo
+          <input id="logoFile" type="file" accept="image/*">
+        </button>
+
+        <input id="bulletinName" type="text" placeholder="Bulletin name">
+      </section>
+
+      <section>
+        <h3>STORY</h3>
+
+        <input id="headline" type="text" placeholder="Main headline">
+        <input id="presenter" type="text" placeholder="Presenter name">
+        <input id="location" type="text" placeholder="Location">
+        <textarea id="script" placeholder="Paste story script..."></textarea>
+
+        <button id="analyze" class="primary">AI ANALYZE STORY</button>
+
+        <div id="aiReport" class="report">AI Director waiting for a story.</div>
+      </section>
+
+      <section>
+        <h3>SCENES</h3>
+        <div id="sceneList" class="sceneList">
+          <p class="hint">Run "Find Best Shots" after importing a video.</p>
+        </div>
+      </section>
+
+    </aside>
+
+    <!-- CENTER EDITOR -->
+    <main class="center">
+
+      <div class="toolbar">
+        <button id="play" title="Play">&#9654;</button>
+        <button id="pause" title="Pause">&#9208;</button>
+        <button id="back" title="Back 5 seconds">&minus;5s</button>
+        <button id="forward" title="Forward 5 seconds">+5s</button>
+        <button id="fullscreen" title="Fullscreen">&#9974;</button>
+        <div class="spacer"></div>
+        <button id="aiProduce" class="primary">&#129302; AI PRODUCE</button>
+        <button id="record" class="gold">&#9679; EXPORT</button>
+      </div>
+
+      <div class="stage" id="stage">
+        <video id="video" playsinline preload="metadata"></video>
+        <canvas id="canvas"></canvas>
+        <div class="empty" id="empty">IMPORT A VIDEO TO START</div>
+        <div id="liveBadge" class="liveBadge">NEWS</div>
+      </div>
+
+      <div class="transport">
+        <span id="current">00:00</span>
+        <input id="seek" type="range" min="0" max="100" value="0">
+        <span id="duration">00:00</span>
+      </div>
+
+      <div class="tabs">
+        <button class="tab active" data-tab="media">MEDIA</button>
+        <button class="tab" data-tab="timeline">TIMELINE</button>
+        <button class="tab" data-tab="audio">AUDIO</button>
+        <button class="tab" data-tab="qc">BROADCAST QC</button>
+      </div>
+
+      <div id="tab-media" class="tabPanel active">
+        <div class="dropzone" id="dropzone">
+          Drag media here or use Import Video above
+          <br>
+          <small>Local analysis will scan the clip for scene changes, duration, resolution and audio.</small>
+        </div>
+        <div id="mediaInfo" class="cards"></div>
+      </div>
+
+      <div id="tab-timeline" class="tabPanel">
+        <div class="timelineRows">
+          <div>
+            <b>VIDEO</b>
+            <div class="timelineTrack"><span id="videoClip">No video</span></div>
+          </div>
+          <div>
+            <b>GRAPHICS</b>
+            <div class="timelineTrack"><span>Headline &bull; Lower Third &bull; Ticker</span></div>
+          </div>
+          <div>
+            <b>AUDIO</b>
+            <div class="timelineTrack"><span id="audioClip">Presenter &bull; Music &bull; B-roll</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-audio" class="tabPanel">
+        <div class="mixer">
+          <label>
+            Presenter
+            <input type="range" id="presenterVol" min="0" max="1" step=".01" value="1">
+          </label>
+          <label class="disabled">
+            Music <span class="tag">no track imported</span>
+            <input type="range" id="musicVol" min="0" max="1" step=".01" value=".18" disabled>
+          </label>
+          <label class="disabled">
+            B-roll <span class="tag">no track imported</span>
+            <input type="range" id="brollVol" min="0" max="1" step=".01" value=".65" disabled>
+          </label>
+        </div>
+      </div>
+
+      <div id="tab-qc" class="tabPanel">
+        <div id="qcReport" class="qc">Broadcast quality control has not been run.</div>
+      </div>
+
+    </main>
+
+    <!-- RIGHT SIDEBAR -->
+    <aside class="sidebar right">
+
+      <section>
+        <h3>EDITABLE FEATURES</h3>
+        <div class="feature">
+          <label>Lower third name
+            <input id="lowerText" type="text" value="NEWS PRESENTER">
+          </label>
+          <label>Title
+            <input id="lowerTitle" type="text" value="NEWS">
+          </label>
+          <label>Headline
+            <input id="screenHeadline" type="text">
+          </label>
+          <label>Ticker
+            <input id="ticker" type="text" value="LATEST NEWS &bull; EDUCATION &bull; COMMUNITY &bull; SPORTS &bull; WEATHER">
+          </label>
+        </div>
+      </section>
+
+      <section>
+        <h3>VISUAL CONTROLS</h3>
+
+        <label>Theme
+          <select id="theme">
+            <option value="classic">Classic Navy</option>
+            <option value="dark">Dark News</option>
+            <option value="light">Light News</option>
+          </select>
+        </label>
+
+        <label>Graphics opacity
+          <input id="gfxOpacity" type="range" min="0" max="1" step=".05" value="1">
+        </label>
+
+        <label>Logo opacity
+          <input id="logoOpacity" type="range" min="0" max="1" step=".05" value=".9">
+        </label>
+
+        <div class="checks">
+          <label><input id="showLower" type="checkbox" checked> Lower third</label>
+          <label><input id="showHeadline" type="checkbox" checked> Headline</label>
+          <label><input id="showTicker" type="checkbox" checked> Ticker</label>
+          <label><input id="showLogo" type="checkbox" checked> Logo</label>
+        </div>
+      </section>
+
+      <section>
+        <h3>AI DIRECTOR</h3>
+        <button id="apply" class="primary">APPLY BROADCAST LOOK</button>
+        <button id="findShots">FIND BEST SHOTS</button>
+        <button id="runQc">RUN BROADCAST QC</button>
+        <button id="save">SAVE PROJECT JSON</button>
+        <button id="reset">RESET EDITS</button>
+      </section>
+
+      <section>
+        <h3>PROJECT STATUS</h3>
+        <div id="statusCard" class="statusCard">
+          <span>MEDIA</span><b id="mediaStatus">Waiting</b>
+          <span>GRAPHICS</span><b id="gfxStatus">Ready</b>
+          <span>AI</span><b id="aiStatus">Idle</b>
+          <span>QC</span><b id="qcStatus">Not checked</b>
+        </div>
+      </section>
+
+    </aside>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
