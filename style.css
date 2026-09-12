@@ -224,3 +224,85 @@ button.primary:hover{ background:#e0122f; }
 }
 .statusCard span{ color:var(--ink-dim); }
 .statusCard b{ text-align:right; }
+/* =========================================================
+   PROGRAM MONITOR
+========================================================= */
+
+.stage{
+  position:relative;
+  flex:1;
+  min-height:360px;
+  overflow:hidden;
+  background:#02060b;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.stage video{
+  display:none !important;
+}
+
+.stage canvas{
+  display:none;
+  width:100%;
+  height:100%;
+  max-width:none;
+  max-height:none;
+  object-fit:contain;
+  background:#02060b;
+}
+
+.stage canvas.on{
+  display:block;
+}
+
+.empty{
+  z-index:5;
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(20,55,85,.55),
+      rgba(2,6,11,.98)
+    );
+  color:#9aaec6;
+  font:700 14px/1.4 Inter,sans-serif;
+  letter-spacing:.12em;
+  text-align:center;
+}
+
+.liveBadge{
+  z-index:10;
+  top:14px;
+  left:14px;
+  background:#c8102e;
+  color:#fff;
+  box-shadow:0 5px 18px rgba(0,0,0,.35);
+}
+
+.scene-chip{
+  min-height:42px;
+}
+
+.scene-chip b{
+  color:#d1a13f;
+}
+
+.toolbar .primary{
+  min-width:130px;
+}
+
+@media(max-width:1100px){
+
+  .app{
+    grid-template-columns:1fr;
+  }
+
+  .sidebar{
+    max-height:none;
+  }
+
+  .stage{
+    min-height:420px;
+  }
+}
